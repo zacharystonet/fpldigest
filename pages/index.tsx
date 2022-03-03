@@ -6,8 +6,8 @@ export default function Home() {
     <div className="bg-white h-screen overflow-hidden">
 
       <main className="flex">
-        <PlayerTeam />
         <Sidebar />
+        <PlayerTeam />
       </main>
 
     </div>
