@@ -1,7 +1,7 @@
 
 
-//const proxyURL = 'https://cors-anywhere.herokuapp.com/';
-const proxyURL = "https://fplproxy.herokuapp.com/";
+const proxyURL = 'https://cors-anywhere.herokuapp.com/';
+//const proxyURL = "https://fplproxy.herokuapp.com/";
 const baseURL = "https://fantasy.premierleague.com/api/";
 
 export const reqType = {
