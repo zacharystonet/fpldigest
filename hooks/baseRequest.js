@@ -1,6 +1,7 @@
 
 
-const proxyURL = 'https://cors-anywhere.herokuapp.com/';
+//const proxyURL = 'https://cors-anywhere.herokuapp.com/';
+const proxyURL = "https://corsanywhere.herokuapp.com/"
 //const proxyURL = "https://fplproxy.herokuapp.com/";
 const baseURL = "https://fantasy.premierleague.com/api/";
 
@@ -16,13 +17,13 @@ export const reqType = {
   leagueClassicStanding: 'leagues-classic/' //Get league standing at current gameweek.
 }
 
+
 export const getJSON = async (url) => {
   const response = await fetch(proxyURL + baseURL + url);
-  console.log(proxyURL + baseURL + url);
   const myJson = await response.json();
-  console.log(myJson);
-  return myJson
+  return myJson;
 }
+
 
 /*export const doCORSRequest = async (url) => {
   const response = await fetch(proxyURL + baseURL + url);

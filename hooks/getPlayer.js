@@ -1,7 +1,7 @@
-import {doCORSRequest, reqType} from './baseRequest';
+import {getJSON, reqType} from './baseRequest';
 
 const getPlayer = (id) => {
-  const data = doCORSRequest(`${reqType.element}${id}/`);
+  const data = getJSON(`${reqType.element}${id}/`);
   return data;
 }
 

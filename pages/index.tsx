@@ -1,5 +1,5 @@
 import PlayerTeam from "../components/PlayerTeam"
-
+import Sidebar from "../components/Sidebar"
 export default function Home() {
   
   return (
@@ -7,6 +7,7 @@ export default function Home() {
 
       <main className="flex">
         <PlayerTeam />
+        <Sidebar />
       </main>
 
     </div>
