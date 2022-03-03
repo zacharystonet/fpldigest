@@ -20,6 +20,7 @@ export const getJSON = async (url) => {
   const response = await fetch(proxyURL + baseURL + url);
   console.log(proxyURL + baseURL + url);
   const myJson = await response.json();
+  console.log(myJson);
   return myJson
 }
 
