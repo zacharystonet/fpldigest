@@ -7,13 +7,20 @@ import React, { useEffect, useState } from "react";
  function PlayerTeam() {
 
 
-
+    const [firstName, setFirstName] = useState(null);
+    const [lastName, setLastName] = useState(null);
     const [teamName, setTeamName] = useState(null);
     const [overallPoints, setOverallPoints] = useState(null);
+    const [currentGWPoints, setCurrentGWPoints] = useState(null);
+    
     useEffect(() => {
         getTeam(27356).then(data => {
-            setTeamName(data.name)
-            setOverallPoints(data.summary_overall_points)
+            setFirstName(data.player_first_name);
+            setLastName(data.player_last_name);
+            setTeamName(data.name);
+            setOverallPoints(data.summary_overall_points);
+            setCurrentGWPoints(data.summary_event_points);
+            
         })
     }, []); 
 
@@ -26,20 +33,17 @@ import React, { useEffect, useState } from "react";
 
 
     return (
+        
         <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
-            <header className="absolute top-5 right-8">
-                <div className="flex items-center bg-black space-x-3 
-                    opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2 text-white">
-                    <h2>{teamName}</h2>
+            <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+                <div class="px-6 py-4">
+                    <div className="font-bold text-xl mb-2">Team Summary</div>
+                    <p className="text-gray-700 text-base">Name: {teamName} </p>
+                    <p className="text-gray-700 text-base">Total points: {overallPoints}</p>
+                    <p className="text-gray-700 text-base">Current GW points: {currentGWPoints}</p>
                 </div>
-            </header>
-            <div>
-                <h2>Overall summary</h2>
-                <p>Total points: {overallPoints}</p>
-
             </div>
-
-         </div>
+        </div>
     )
 }
 
