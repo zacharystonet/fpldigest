@@ -10,26 +10,31 @@ import { useEffect, useState } from "react";
 function Sidebar() {
     
     return(
-        <div className="text-gray-500 bg-sky-700 p-5 text-xs lg:text-lg border-r 
-        border-sky-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[20rem] 
-        hidden md:inline-flex pb-36">
-            <div className="space-y-4">
-                <button className="flex items-center space-x-2 hover:text-white">
-                    <HomeIcon className="text-white h-5 w-5" />
-                    <p className="text-white">Home</p>
-                </button>
-                <button className="flex items-center space-x-2 hover:text-white">
-                    <ChartBarIcon className="text-white h-5 w-5" />
-                    <p className="text-white">Stats</p>
-                </button>
-                <button className="flex items-center space-x-2 hover:text-white">
-                    <CurrencyDollarIcon className="text-white h-5 w-5" />
-                    <p className="text-white">Prices</p>
-                </button>
-                <hr className="border-t-[.1px] border-white" />
-
-                {/* Playlists */}
-
+        <div class="min-h-screen flex flex-row bg-gray-100">
+            <div class="flex flex-col w-56 bg-white rounded-r-3xl overflow-hidden">
+                <div class="flex items-center justify-center h-20 shadow-md">
+                <   h1 class="text-3xl text-blue-500">fpldigest</h1>
+                </div>
+                <ul class="flex flex-col py-4">
+                    <li>
+                        <a href="#" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+                        <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-home"></i></span>
+                        <span class="text-sm font-medium">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+                        <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-music"></i></span>
+                        <span class="text-sm font-medium">Stats</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+                        <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-drink"></i></span>
+                        <span class="text-sm font-medium">Price Changes</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     );
