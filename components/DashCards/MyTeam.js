@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import getManagersTeam from "../../hooks/getManagersTeam"
 import getBootstrap from "../../hooks/getBootstrap"
-import getPlayer_Name from "../../hooks/getPlayer_Name"
+
 
 function MyTeam() {
     useEffect(() => {
@@ -10,12 +10,13 @@ function MyTeam() {
         // set team list to 'data'
         getManagersTeam(27356,28).then(data => {
             var root = document.getElementById('root');
+            
             // loop through team 'data'
             for(const element of data.picks) {
                 getBootstrap().then(allJson => {
                     var i = 0;
                     var name = '';
-                    
+
                     // this is sus but open all json data to find player information based on element.element (id from team list)
                     for (i=0; i < allJson.elements.length; i++) {
                         if (allJson.elements[i].id == element.element) {

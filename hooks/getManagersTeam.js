@@ -1,4 +1,4 @@
-import { reqType, getJSON} from './baseRequest';
+import { reqType, getJSON } from './baseRequest';
 
 //https://fantasy.premierleague.com/api/entry/{manager_id}/event/{event_id}/picks/
 const getManagersTeam = (id,gw) => {
