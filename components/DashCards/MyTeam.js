@@ -62,7 +62,13 @@ function MyTeam() {
                     for (i=0; i < allJson.elements.length; i++) {
                         if (allJson.elements[i].id == element.element) {
                             name = allJson.elements[i].first_name + ' ' + allJson.elements[i].second_name
-                            root.insertAdjacentHTML('beforebegin', `<tr><td>${name}</td><td>${allJson.elements[i].form}</td></tr>`)
+                            root.insertAdjacentHTML('beforebegin',
+                             `<tr>
+                                <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${name}</div></td>
+                                <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].form}</div></td>
+                                <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].transfers_in_event}</div></td>
+                                <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].transfers_out_event}</div></td>
+                             </tr>`)
                         }
                     }    
                 })
@@ -72,29 +78,59 @@ function MyTeam() {
         })
     }, []); 
 
-    //console.log(mgmtTeamData);
+    
 
 
 
 
     return (
-        <div>
-            <table>
+/*         <div>
+            <table class="table-auto">
                 <thead>
-                <tr>
-                    <td>
-                    <b>Player</b>
-                    </td>
-                    <td>
-                    <b>Form</b>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                        <b>Player</b>
+                        </td>
+                        <td>
+                        <b>Form</b>
+                        </td>
+                        <td>
+                        <b>Transfers In this GW</b>
+                        </td>
+                        <td>
+                        <b>Transfers Out this GW</b>
+                        </td>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr id="root"></tr>
                 </tbody>    
             </table>
-        </div>
+        </div> */
+
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Form</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transfers In (GW)</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transfers Out (GW)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr id="root"></tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+         </div>
+
+
     )
 }
 
