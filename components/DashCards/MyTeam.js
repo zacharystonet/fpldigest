@@ -51,7 +51,7 @@ function MyTeam() {
 
     
     useEffect(() => {
-        getManagersTeam(27356,27).then(data => {
+        getManagersTeam(27356,28).then(data => {
             //console.log(data)
             var root = document.getElementById('root');
             
