@@ -62,7 +62,7 @@ function MyTeam() {
                     for (i=0; i < allJson.elements.length; i++) {
                         if (allJson.elements[i].id == element.element) {
                             name = allJson.elements[i].first_name + ' ' + allJson.elements[i].second_name
-                            root.insertAdjacentHTML('beforebegin', `<tr><td>${name}</td><td>${element.position}</td></tr>`)
+                            root.insertAdjacentHTML('beforebegin', `<tr><td>${name}</td><td>${allJson.elements[i].form}</td></tr>`)
                         }
                     }    
                 })
@@ -86,7 +86,7 @@ function MyTeam() {
                     <b>Player</b>
                     </td>
                     <td>
-                    <b>Position</b>
+                    <b>Form</b>
                     </td>
                 </tr>
                 </thead>
