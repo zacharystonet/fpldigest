@@ -1,4 +1,4 @@
-import PlayerTeam from "../components/PlayerTeam"
+import MgmtDash from "../components/MgmtDash"
 import Sidebar from "../components/Sidebar"
 export default function Home() {
   
@@ -7,7 +7,11 @@ export default function Home() {
 
       <main className="flex">
         <Sidebar />
-        <PlayerTeam />
+
+        <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-9xl">
+          <MgmtDash />
+        </div>
+        
       </main>
 
     </div>

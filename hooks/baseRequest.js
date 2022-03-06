@@ -14,12 +14,13 @@ export const reqType = {
   elementTypes: 'element-types', // Get all player positions
   gameweekFixtures: 'fixtures/?event', //Get all fixtures for a specified gameweek (gameweek number)
   teams: 'teams/', //Get all teams,
-  leagueClassicStanding: 'leagues-classic/' //Get league standing at current gameweek.
+  leagueClassicStanding: 'leagues-classic/', //Get league standing at current gameweek.
 }
 
 
 export const getJSON = async (url) => {
   const response = await fetch(proxyURL + baseURL + url);
+  console.log(proxyURL + baseURL + url);
   const myJson = await response.json();
   return myJson;
 }
