@@ -69,7 +69,10 @@ function MyTeam() {
                                 <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].transfers_in_event}</div></td>
                                 <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].transfers_out_event}</div></td>
                              </tr>`)
+                             break;
                         }
+                        console.log(i)
+
                     }    
                 })
                 
