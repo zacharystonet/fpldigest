@@ -2,24 +2,24 @@
 import React, { useEffect, useState } from "react";
 import getManagersTeam from "../../hooks/getManagersTeam"
 import getBootstrap from "../../hooks/getBootstrap"
+import getPlayer_Name from "../../hooks/getPlayer_Name"
 
 function MyTeam() {
-
     useEffect(() => {
+
+        // set team list to 'data'
         getManagersTeam(27356,28).then(data => {
-            //console.log(data)
-            // get info for each player on your team. check back for optimization. 
-            // we don't want to iterate over and over again after we find a player id.
             var root = document.getElementById('root');
+            // loop through team 'data'
             for(const element of data.picks) {
                 getBootstrap().then(allJson => {
                     var i = 0;
                     var name = '';
-
+                    
+                    // this is sus but open all json data to find player information based on element.element (id from team list)
                     for (i=0; i < allJson.elements.length; i++) {
                         if (allJson.elements[i].id == element.element) {
                             name = allJson.elements[i].first_name + ' ' + allJson.elements[i].second_name
-                            console.log(allJson.elements[i].code)
                             root.insertAdjacentHTML('beforebegin',
                              `<tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -46,15 +46,7 @@ function MyTeam() {
         })
     }, []);
 
-    useEffect(() => {
-        getBootstrap().then(data => {
-
-            })
-   
-        
-    }, []);
     
-
     return (
         <div className="flex flex-col">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
