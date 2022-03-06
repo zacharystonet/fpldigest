@@ -15,14 +15,23 @@ function MyTeam() {
                 getBootstrap().then(allJson => {
                     var i = 0;
                     var name = '';
-                    console.log(allJson)
 
                     for (i=0; i < allJson.elements.length; i++) {
                         if (allJson.elements[i].id == element.element) {
                             name = allJson.elements[i].first_name + ' ' + allJson.elements[i].second_name
+                            console.log(allJson.elements[i].code)
                             root.insertAdjacentHTML('beforebegin',
                              `<tr>
-                                <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${name}</div></td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full" src="https://resources.premierleague.com/premierleague/photos/players/250x250/p${allJson.elements[i].code}.png" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">${name}</div>        
+                                    </div>
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].form}</div></td>
                                 <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].transfers_in_event}</div></td>
                                 <td class="px-6 py-4 whitespace-nowrap><div class="text-sm text-gray-900">${allJson.elements[i].transfers_out_event}</div></td>
