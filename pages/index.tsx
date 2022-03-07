@@ -1,5 +1,5 @@
-import MgmtDash from "../components/MgmtDash"
-import Sidebar from "../components/Sidebar"
+import MgmtDash from "../src/components/MgmtDashboard/MgmtDash"
+import Sidebar from "../src/components/Sidebar/Sidebar"
 export default function Home() {
   
   return (

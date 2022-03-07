@@ -1,8 +1,6 @@
-import getManagerInfo  from "../hooks/getManagerInfo";
 import React, { useEffect, useState } from "react";
-import MgmtCard from "../components/DashCards/MgmtCard"
-import MyTeam from "../components/DashCards/MyTeam"
-import { MyComponent , MyTeamTable} from "../components/DashCards/MyTeam";
+import MgmtCard from "./dashboardelements/MgmtCard"
+import MyTeam from "./dashboardelements/MyTeam"
 
  function MgmtDash() {    
     return (
@@ -12,7 +10,8 @@ import { MyComponent , MyTeamTable} from "../components/DashCards/MyTeam";
             </div>
 
             <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-9xl ">    
-                <MyTeam /> 
+                <MyTeam />
+                
                     
             </div>
         </main>

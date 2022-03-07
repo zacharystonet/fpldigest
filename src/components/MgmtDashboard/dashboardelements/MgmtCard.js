@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import getManagerInfo  from "../../hooks/getManagerInfo";
+import getManagerInfo  from "../../../utils/data/getManagerInfo";
 
 function MgmtCard() {
 
