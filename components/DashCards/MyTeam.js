@@ -1,11 +1,99 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import getManagersTeam from "../../hooks/getManagersTeam"
 import getBootstrap from "../../hooks/getBootstrap"
-import DataTable from 'react-data-table-component';
+import DataTable, {createTheme} from 'react-data-table-component';
 import getManagerInfo  from "../../hooks/getManagerInfo";
+import { getJSON, reqType } from "../../hooks/baseRequest";
+import { useTable } from 'react-table';
+//import getPlayer_Name from "../../hooks/getPlayer_Name"
 
-function MyTeam() {
+
+
+
+
+
+function MyTeamTable() {
+    const columns = [
+        {
+          name: "Player",
+          selector: (row) => row.player,
+          sortable: true,
+          grow: 2,
+          
+        },
+        {
+          name: "Form",
+          selector: (row) => row.form,
+          sortable: true,
+          center: true,
+        },
+        {
+          name: "Transfers In (GW)",
+          selector: (row) => row.transfersin,
+          sortable: true,
+          center: true,
+        },
+        {
+          name: "Transfers Out (GW)",
+          selector: (row) => row.transfersout,
+          sortable: true,
+          center: true,
+        },
+      ];
+  
+      const [teamArray, setTeamArray] = useState([]);
+      const fetchData = async () => {
+        var managersteam = [];
+        const [bootstrap, data] = await Promise.all([
+          getBootstrap(),
+          getManagersTeam(27356, 28)
+        ]);
+    
+        for (var i in data.picks) {
+          for (var j in bootstrap.elements) {
+            if (data.picks[i].element == bootstrap.elements[j].id) {
+              managersteam.push({
+                player: bootstrap.elements[j].first_name + ' ' + bootstrap.elements[j].second_name,
+                form: bootstrap.elements[j].form,
+                transfersin: bootstrap.elements[j].transfers_in_event,
+                transfersout: bootstrap.elements[j].transfers_out_event,
+              });
+              break;
+            }
+          }
+        }
+        setTeamArray(managersteam);
+      }
+    
+      useEffect(() => {
+        fetchData();    
+      }, []);
+
+      const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+       } = useTable({ columns, teamArray })
+       return (
+        <thead>
+        {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+            ))}
+          </tr>
+        ))}
+       </thead>
+       
+       )
+}
+
+
+
+function MyTeamTest() {
 
     useEffect(() => {
 
@@ -80,154 +168,107 @@ function MyTeam() {
     )
 }
 
+  export function MyTeam() {
+    const customStyles = {
+        	headRow: {
+        		style: {
+                    width:'auto'
+        		},
+        	},
+        	headCells: {
+        		style: {
+        			color: '#202124',
+        			fontSize: '14px',
+        		},
+        	
+        	},
+        	pagination: {
+        		style: {
+        			border: 'none',
+        		},
+        	},
+        };
 
-
-export function MyComponent() {
     const columns = [
-        {
-            name: 'Player',
-            selector: row => row.Player,
-            sortable: true,
-        },
+      {
+        name: "Player",
+        selector: (row) => row.player,
+        sortable: true,
+        grow: 2,
         
+      },
+      {
+        name: "Form",
+        selector: (row) => row.form,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Transfers In (GW)",
+        selector: (row) => row.transfersin,
+        sortable: true,
+        center: true,
+      },
+      {
+        name: "Transfers Out (GW)",
+        selector: (row) => row.transfersout,
+        sortable: true,
+        center: true,
+      },
     ];
-    
-    
-    const [teamArray, setTeamArray] = useState([])
-    //const [testName, setTestName] = useState(null)
+
+    const [teamArray, setTeamArray] = useState([]);
+    const fetchData = async () => {
+      var managersteam = [];
+      const [bootstrap, data] = await Promise.all([
+        getBootstrap(),
+        getManagersTeam(27356, 28)
+      ]);
+  
+      for (var i in data.picks) {
+        for (var j in bootstrap.elements) {
+          if (data.picks[i].element == bootstrap.elements[j].id) {
+            managersteam.push({
+              player: bootstrap.elements[j].first_name + ' ' + bootstrap.elements[j].second_name,
+              form: bootstrap.elements[j].form,
+              transfersin: bootstrap.elements[j].transfers_in_event,
+              transfersout: bootstrap.elements[j].transfers_out_event,
+            });
+            break;
+          }
+        }
+      }
+      setTeamArray(managersteam);
+    }
+  
     useEffect(() => {
-        var managersteam = []
-
-
-
-        
-        getManagersTeam(27356,28).then(data => {
-             
-
-            for (var i in data.picks) {
-                var item = data.picks[i];
-                //console.log(item)
-               managersteam.push({
-                   "Player" : item.element
-                   
-               })
-               
-            }
-            console.log(managersteam)
-            setTeamArray(managersteam)
-
-        })  
-    }, []); 
-
-
-
-/*          getManagersTeam(27356,28).then(data => {
-             
-
-            for (var i in data.picks) {
-                var item = data.picks[i];
-
-                getBootstrap().then(bootstrap => {
-                    for (var j in bootstrap.elements) {
-                        if (bootstrap.elements[j].id == item.element) {
-                            var bootstrapItem = bootstrap.elements[j]
-                            console.log(bootstrap.elements[j].second_name)
-                            managersteam.push({
-                                "Player" : bootstrap.elements[j].second_name
-                            })
-                            break;
-                        }
-                    }
-                    setTeamArray(managersteam)
-                })
-            }
-        })  
-    }, []);  */
-    //console.log(managersteam)
-    return (
-        <DataTable
-            columns={columns}
-            data={teamArray}
-        />
-    )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* export function MyComponent() {
-    const columns = [
-        {
-            name: 'Player',
-            selector: row => row.Player,
-            sortable: true,
-        },
-    ];
-    
-    var managersteam = []
-    const [teamArray, setTeamArray] = useState([])
-    useEffect(() => {
-        getManagersTeam(27356,28).then(data => {
-             
-            for (var j in data.picks) {
-                var item = data.picks[j];
-
-
-                getBootstrap().then(allJson => {
-                    var i = 0;
-                    var name = '';
-                    
-                    // this is sus but open all json data to find player information based on element.element (id from team list)
-                    for (i=0; i < allJson.elements.length; i++) {
-                        if (allJson.elements[i].id == item.element) {
-                            var item2 = allJson.elements[i]
-                            managersteam.push({
-                                "Player" : item2.second_name
-                            })
-                        }
-                    }
-                    setTeamArray(managersteam)
-                })
-            }
-        })
+      fetchData();    
     }, []);
-    
-    return (
-        <DataTable
-            columns={columns}
-            data={teamArray}
-        />
-    )
-} */
+  
+    return <DataTable columns={columns} data={teamArray} customStyles={customStyles} highlightOnHover />;
+  }
+
+  
+
+  // createTheme creates a new theme named solarized that overrides the build in dark theme
+createTheme('TeamList', {
+    text: {
+      primary: '#000000',
+      
+    },
+    background: {
+      default: '#FFFFFF',
+    },
+    context: {
+      background: '#cb4b16',
+      text: '#FFFFFF',
+    },
+    divider: {
+      default: '#DDDCDC',
+    },
+  }, 'dark');
+
+
 
 
 export default MyTeam;
