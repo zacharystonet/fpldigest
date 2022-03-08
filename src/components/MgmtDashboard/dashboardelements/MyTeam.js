@@ -3,6 +3,7 @@ import getManagersTeam from "../../../utils/data/getManagersTeam"
 import getBootstrap from "../../../utils/data/getBootstrap"
 import DataTable, {createTheme} from 'react-data-table-component';
 import {useTable, useSortBy} from 'react-table'
+import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/react/outline";
 
 
 
@@ -76,15 +77,15 @@ export function MyTeam() {
          <tr {...headerGroup.getHeaderGroupProps()}>
            {headerGroup.headers.map(column => (
              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-               {...column.getHeaderProps(column.getSortByToggleProps())}
-               style={{
-                 /* borderBottom: 'solid 3px red',
-                 background: 'aliceblue',
-                 color: 'black',
-                 fontWeight: 'bold', */
-               }}
-             >
+               {...column.getHeaderProps(column.getSortByToggleProps())}>
                {column.render('Header')}
+               <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' ▼'
+                        : ' ▲'
+                      : ''}
+                  </span>
              </th>
            ))}
          </tr>
@@ -97,14 +98,7 @@ export function MyTeam() {
            <tr {...row.getRowProps()}>
              {row.cells.map(cell => {
                return (
-                 <td className="name px-6 py-4 whitespace-nowrap"
-                   {...cell.getCellProps()}
-                   style={{
-/*                      padding: '10px',
-                     border: 'solid 1px gray',
-                     background: 'papayawhip', */
-                   }}
-                 >
+                 <td className="name px-6 py-4 whitespace-nowrap" {...cell.getCellProps()}>
                    {cell.render('Cell')}
                  </td>
                )
