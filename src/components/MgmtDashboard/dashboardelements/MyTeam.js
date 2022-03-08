@@ -1,7 +1,126 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import getManagersTeam from "../../../utils/data/getManagersTeam"
 import getBootstrap from "../../../utils/data/getBootstrap"
 import DataTable, {createTheme} from 'react-data-table-component';
+import {useTable, useSortBy} from 'react-table'
+
+
+
+export function MyTeam() {
+
+  const [teamArray, setTeamArray] = useState([]);
+  const fetchData = async () => {
+    var managersteam = [];
+    const [bootstrap, data] = await Promise.all([
+      getBootstrap(),
+      getManagersTeam(27356, 28)
+    ]);
+
+    for (var i in data.picks) {
+      for (var j in bootstrap.elements) {
+        if (data.picks[i].element == bootstrap.elements[j].id) {
+          managersteam.push({
+            player: bootstrap.elements[j].first_name + ' ' + bootstrap.elements[j].second_name,
+            form: bootstrap.elements[j].form,
+            transfersin: bootstrap.elements[j].transfers_in_event,
+            transfersout: bootstrap.elements[j].transfers_out_event,
+          });
+          break;
+        }
+      }
+    }
+    setTeamArray(managersteam);
+  }
+
+  useEffect(() => {
+    fetchData();    
+  }, []);
+
+  const dataTest = useMemo(() => teamArray, []);
+  //console.log(teamArray)
+
+ const columns = React.useMemo(
+   () => [
+     {
+       Header: 'Player',
+       accessor: 'player', // accessor is the "key" in the data
+     },
+     {
+       Header: 'Form',
+       accessor: 'form',
+     },
+     {
+      Header: 'Transfers In (GW)',
+      accessor: 'transfersin',
+    },
+    {
+      Header: 'Transfers Out (GW)',
+      accessor: 'transfersout',
+    },
+   ],
+   []
+ )
+
+ const {
+   getTableProps,
+   getTableBodyProps,
+   headerGroups,
+   rows,
+   prepareRow,
+ } = useTable({ columns, data: teamArray }, useSortBy)
+
+ return (
+   <table className='min-w-full divide-y divide-gray-200' {...getTableProps()} style={{ /*border: 'solid 1px blue' */}}>
+     <thead className="bg-gray-50">
+       {headerGroups.map(headerGroup => (
+         <tr {...headerGroup.getHeaderGroupProps()}>
+           {headerGroup.headers.map(column => (
+             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+               {...column.getHeaderProps(column.getSortByToggleProps())}
+               style={{
+                 /* borderBottom: 'solid 3px red',
+                 background: 'aliceblue',
+                 color: 'black',
+                 fontWeight: 'bold', */
+               }}
+             >
+               {column.render('Header')}
+             </th>
+           ))}
+         </tr>
+       ))}
+     </thead>
+     <tbody className="bg-white divide-y divide-gray-200" {...getTableBodyProps()}>
+       {rows.map(row => {
+         prepareRow(row)
+         return (
+           <tr {...row.getRowProps()}>
+             {row.cells.map(cell => {
+               return (
+                 <td className="name px-6 py-4 whitespace-nowrap"
+                   {...cell.getCellProps()}
+                   style={{
+/*                      padding: '10px',
+                     border: 'solid 1px gray',
+                     background: 'papayawhip', */
+                   }}
+                 >
+                   {cell.render('Cell')}
+                 </td>
+               )
+             })}
+           </tr>
+         )
+       })}
+     </tbody>
+   </table>
+ )
+}
+
+
+
+
+
 
   // createTheme creates a new theme named solarized that overrides the build in dark theme
   createTheme('TeamList', {
@@ -22,7 +141,7 @@ import DataTable, {createTheme} from 'react-data-table-component';
   }, 'dark');
 
 
-export function MyTeam() {
+export function MyTeamOld() {
   const customStyles = {
         headRow: {
           style: {
@@ -107,7 +226,7 @@ export default MyTeam;
 
 
 
-/* function MyTeamTest() {
+ /*function MyTeamTest() {
 
     useEffect(() => {
 
