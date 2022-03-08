@@ -4,7 +4,7 @@ import getBootstrap from "../../../utils/data/getBootstrap"
 import DataTable, {createTheme} from 'react-data-table-component';
 import {useTable, useSortBy} from 'react-table'
 import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/react/outline";
-
+import {Table} from "../../../utils/tables/tables"
 
 
 export function MyTeam() {
@@ -37,8 +37,7 @@ export function MyTeam() {
     fetchData();    
   }, []);
 
-  const dataTest = useMemo(() => teamArray, []);
-  //console.log(teamArray)
+
 
  const columns = React.useMemo(
    () => [
@@ -61,159 +60,12 @@ export function MyTeam() {
    ],
    []
  )
-
- const {
-   getTableProps,
-   getTableBodyProps,
-   headerGroups,
-   rows,
-   prepareRow,
- } = useTable({ columns, data: teamArray }, useSortBy)
-
  return (
-   <table className='min-w-full divide-y divide-gray-200' {...getTableProps()} style={{ /*border: 'solid 1px blue' */}}>
-     <thead className="bg-gray-50">
-       {headerGroups.map(headerGroup => (
-         <tr {...headerGroup.getHeaderGroupProps()}>
-           {headerGroup.headers.map(column => (
-             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-               {...column.getHeaderProps(column.getSortByToggleProps())}>
-               {column.render('Header')}
-               <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' ▼'
-                        : ' ▲'
-                      : ''}
-                  </span>
-             </th>
-           ))}
-         </tr>
-       ))}
-     </thead>
-     <tbody className="bg-white divide-y divide-gray-200" {...getTableBodyProps()}>
-       {rows.map(row => {
-         prepareRow(row)
-         return (
-           <tr {...row.getRowProps()}>
-             {row.cells.map(cell => {
-               return (
-                 <td className="name px-6 py-4 whitespace-nowrap" {...cell.getCellProps()}>
-                   {cell.render('Cell')}
-                 </td>
-               )
-             })}
-           </tr>
-         )
-       })}
-     </tbody>
-   </table>
+   <Table columns={columns} data={teamArray} />
  )
+ 
 }
 
-
-
-
-
-
-  // createTheme creates a new theme named solarized that overrides the build in dark theme
-  createTheme('TeamList', {
-    text: {
-      primary: '#000000',
-      
-    },
-    background: {
-      default: '#FFFFFF',
-    },
-    context: {
-      background: '#cb4b16',
-      text: '#FFFFFF',
-    },
-    divider: {
-      default: '#DDDCDC',
-    },
-  }, 'dark');
-
-
-export function MyTeamOld() {
-  const customStyles = {
-        headRow: {
-          style: {
-                  width:'auto'
-          },
-        },
-        headCells: {
-          style: {
-            color: '#202124',
-            fontSize: '14px',
-          },
-        
-        },
-        pagination: {
-          style: {
-            border: 'none',
-          },
-        },
-      };
-
-  const columns = [
-    {
-      name: "Player",
-      selector: (row) => row.player,
-      sortable: true,
-      grow: 2,
-      
-    },
-    {
-      name: "Form",
-      selector: (row) => row.form,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Transfers In (GW)",
-      selector: (row) => row.transfersin,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "Transfers Out (GW)",
-      selector: (row) => row.transfersout,
-      sortable: true,
-      center: true,
-    },
-  ];
-
-  const [teamArray, setTeamArray] = useState([]);
-  const fetchData = async () => {
-    var managersteam = [];
-    const [bootstrap, data] = await Promise.all([
-      getBootstrap(),
-      getManagersTeam(27356, 28)
-    ]);
-
-    for (var i in data.picks) {
-      for (var j in bootstrap.elements) {
-        if (data.picks[i].element == bootstrap.elements[j].id) {
-          managersteam.push({
-            player: bootstrap.elements[j].first_name + ' ' + bootstrap.elements[j].second_name,
-            form: bootstrap.elements[j].form,
-            transfersin: bootstrap.elements[j].transfers_in_event,
-            transfersout: bootstrap.elements[j].transfers_out_event,
-          });
-          break;
-        }
-      }
-    }
-    setTeamArray(managersteam);
-  }
-
-  useEffect(() => {
-    fetchData();    
-  }, []);
-
-  return <DataTable columns={columns} data={teamArray} customStyles={customStyles} highlightOnHover />;
-}
 
 export default MyTeam;
 
