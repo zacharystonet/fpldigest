@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
-import getManagersTeam from "../../../utils/data/getManagersTeam"
-import getBootstrap from "../../../utils/data/getBootstrap"
-import DataTable, {createTheme} from 'react-data-table-component';
-import {useTable, useSortBy} from 'react-table'
-import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/react/outline";
-import {Table} from "../../../utils/tables/tables"
+import getManagersTeam from "../../../utils/data/getManagersTeam";
+import getBootstrap from "../../../utils/data/getBootstrap";
+import getPlayerMatchData from "../../../utils/data/getPlayerMatchData"
+
+import {Table} from "../../../utils/tables/tables";
 
 
 export function MyTeam() {
@@ -16,12 +15,24 @@ export function MyTeam() {
       getBootstrap(),
       getManagersTeam(27356, 28)
     ]);
+    const [playerMatchData] = await Promise.all([
+      getPlayerMatchData(28)
+    ]);
+    console.log(bootstrap)
+    console.log(data)
 
     for (var i in data.picks) {
       for (var j in bootstrap.elements) {
         if (data.picks[i].element == bootstrap.elements[j].id) {
+
+          var gwpoints = playerMatchData.elements[bootstrap.elements[j].id - 1].stats.total_points // the event list starts playerIDs on index 1? why?
+
+          if (data.picks[i].is_captain) {
+            gwpoints = gwpoints * 2
+          }
           managersteam.push({
             player: bootstrap.elements[j].first_name + ' ' + bootstrap.elements[j].second_name,
+            gwpoints: gwpoints,
             form: bootstrap.elements[j].form,
             transfersin: bootstrap.elements[j].transfers_in_event,
             transfersout: bootstrap.elements[j].transfers_out_event,
@@ -39,11 +50,16 @@ export function MyTeam() {
 
 
 
+
  const columns = React.useMemo(
    () => [
      {
        Header: 'Player',
        accessor: 'player', // accessor is the "key" in the data
+     },
+     {
+      Header: 'GW Points',
+      accessor: 'gwpoints',
      },
      {
        Header: 'Form',
