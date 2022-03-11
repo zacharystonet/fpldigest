@@ -75,7 +75,10 @@ export function MyTeam() {
    []
  )
  return (
-   <Table columns={columns} data={teamArray} />
+   <div className="bg-white shadow-lg rounded-sm border border-slate-200">
+     <Table columns={columns} data={teamArray} />
+    </div>
+   
  )
  
 }

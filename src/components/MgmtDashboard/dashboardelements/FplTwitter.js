@@ -4,7 +4,8 @@ import { Timeline } from 'react-twitter-widgets'
 function FplTwitter() {
 
     return (
-        <Timeline
+        <div className="bg-white shadow-lg rounded-sm border border-slate-200">
+            <Timeline
                     dataSource={{
                     sourceType: 'profile',
                     screenName: 'OfficialFPL'
@@ -12,7 +13,9 @@ function FplTwitter() {
                     options={{
                     height: '1000'
                 }}
-        />
+            />
+        </div>
+
     )
 }
 
