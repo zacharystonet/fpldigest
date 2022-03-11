@@ -9,10 +9,10 @@ function FplTwitter() {
             <Timeline
                 dataSource={{
                     sourceType: 'profile',
-                    screenName: 'TwitterDev'
+                    screenName: 'OfficialFPL'
                     }}
                     options={{
-                        height: '400'
+                        height: '1000'
                      }}
             />
             
