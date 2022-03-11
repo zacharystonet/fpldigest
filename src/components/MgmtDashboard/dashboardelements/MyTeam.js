@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import getManagersTeam from "../../../utils/data/getManagersTeam";
 import getBootstrap from "../../../utils/data/getBootstrap";
 import getPlayerMatchData from "../../../utils/data/getPlayerMatchData"
@@ -10,23 +10,21 @@ export function MyTeam() {
 
   const [teamArray, setTeamArray] = useState([]);
   const fetchData = async () => {
-    var managersteam = [];
-    const [bootstrap, data] = await Promise.all([
+    let managersteam = [];
+    const [bootstrap, data, playerMatchData] = await Promise.all([
       getBootstrap(),
-      getManagersTeam(27356, 28)
-    ]);
-    const [playerMatchData] = await Promise.all([
+      getManagersTeam(27356, 28),
       getPlayerMatchData(28)
     ]);
-    console.log(bootstrap)
-    console.log(data)
 
-    for (var i in data.picks) {
-      for (var j in bootstrap.elements) {
+    //console.log(bootstrap)
+    //console.log(data)
+    console.log(playerMatchData)
+
+    for (let i in data.picks) {
+      for (let j in bootstrap.elements) {
         if (data.picks[i].element == bootstrap.elements[j].id) {
-
-          var gwpoints = playerMatchData.elements[bootstrap.elements[j].id - 1].stats.total_points // the event list starts playerIDs on index 1? why?
-
+          let gwpoints = playerMatchData.elements[bootstrap.elements[j].id - 1].stats.total_points // the event list starts playerIDs on index 1? why?
           if (data.picks[i].is_captain) {
             gwpoints = gwpoints * 2
           }
@@ -94,14 +92,14 @@ export default MyTeam;
 
         // set team list to 'data'
         getManagersTeam(27356,28).then(data => {
-            var root = document.getElementById('root');
+            let root = document.getElementById('root');
 
             //console.log(data)
             // loop through team 'data'
             for(const element of data.picks) {
                 getBootstrap().then(allJson => {
-                    var i = 0;
-                    var name = '';
+                    let i = 0;
+                    let name = '';
                     
                     // this is sus but open all json data to find player information based on element.element (id from team list)
                     for (i=0; i < allJson.elements.length; i++) {
