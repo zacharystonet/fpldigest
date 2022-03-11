@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Timeline } from 'react-twitter-widgets'
+import { Timeline, Tweet } from 'react-twitter-widgets'
+
 
 function FplTwitter() {
 
     return (
         <div className="bg-white shadow-lg rounded-sm border border-slate-200">
             <Timeline
-                    dataSource={{
+                dataSource={{
                     sourceType: 'profile',
-                    screenName: 'OfficialFPL'
-                }}
+                    screenName: 'TwitterDev'
+                    }}
                     options={{
-                    height: '1000'
-                }}
+                        height: '400'
+                     }}
             />
+            
         </div>
 
     )

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MgmtCard from "./dashboardelements/MgmtCard"
 import MyTeam from "./dashboardelements/MyTeam"
 import FplTwitter from "./dashboardelements/FplTwitter"
+
  function MgmtDash() {    
     return (
         <main>
