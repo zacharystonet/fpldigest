@@ -26,7 +26,8 @@ class TeamForm extends Component {
           try {
             const [data] = await Promise.all([
                 getManagerInfo(this.state.value, 29)
-              ]);
+            ]);
+            
               var name = data.name;
               const cookies = new Cookies();
               var date = new Date;
@@ -35,8 +36,6 @@ class TeamForm extends Component {
                 path: "/",
                 expires: date
                 });
-                //alert('Team ' + {name} + ' saved');
-
           } catch (error) {
                 // do something here lol
           }

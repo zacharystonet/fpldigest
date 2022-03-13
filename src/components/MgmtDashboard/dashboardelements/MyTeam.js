@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import getManagersTeam from "../../../utils/data/getManagersTeam";
 import getBootstrap from "../../../utils/data/getBootstrap";
 import getPlayerMatchData from "../../../utils/data/getPlayerMatchData"
+import getGW from "../../../utils/data/getGW"
 import {Table} from "../../../utils/tables/tables";
 
 
@@ -10,11 +11,20 @@ export function MyTeam() {
   const [teamArray, setTeamArray] = useState([]);
   const fetchData = async () => {
     let managersteam = [];
-    const [bootstrap, data, playerMatchData] = await Promise.all([
-      getBootstrap(),
-      getManagersTeam(27356, 29),
-      getPlayerMatchData(29)
+    let gwId = null;
+    
+    const [bootstrap] = await Promise.all([getBootstrap()]);
+    for (let i in bootstrap.events) {
+      if (bootstrap.events[i].is_current) {
+          gwId = bootstrap.events[i].id     
+      }
+    }
+
+    const [data, playerMatchData] = await Promise.all([
+      getManagersTeam(27356, gwId),
+      getPlayerMatchData(gwId)
     ]);
+    //console.log(bootstrap)
 
     //console.log(bootstrap)
     //console.log(data)
