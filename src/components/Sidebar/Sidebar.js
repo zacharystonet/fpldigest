@@ -35,27 +35,6 @@ import TeamForm from "./TeamForm"
     }
   }); */
 
-function handleCookie(key) {
-   console.log(key)
-   const cookies = new Cookies();
-   var date = new Date;
-   date.setDate(date.getDate() + 364);
-   const [teamName, setTeamName] = useState(null);
-
-   useEffect(() => {
-       getManagerInfo(key).then(data => {  
-           console.log(data)
-           setTeamName(data.name);
-       })
-   }, []); 
-
-
-   cookies.set(key, teamName, {
-   path: "/",
-   expires: date
-   });
-} 
-
 function Sidebar() {
     const [teams, setTeams] = useState([]);
     const [teamId, setTeamId] = useRecoilState(teamIdState);
@@ -92,21 +71,6 @@ function Sidebar() {
                 {/* stored cookie IDs for teams */}
                 <hr className="border-t-[.1px] border-gray-200" />
                 <TeamForm />
-{/*                 {teams.map((team) => (
-                    <p 
-                    key={team.id} 
-                    onClick={() => setTeamId(team.id)}
-                    className="cursor-pointer hover:text-white">{team.name}</p>
-                ))} */}
-
-{/*             <form className="">
-                <div className="flex items-center py-3">
-                    <input ref={teamInput} className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Team ID" />
-                    <button className="flex items-center space-x-2 hover:text-gray">
-                        <PlusIcon className="h-5 w-5" onClick={handleCookie(teamInput)}/>
-                    </button>
-                </div>
-            </form>  */}
 
             </div>  
         </div>
