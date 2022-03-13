@@ -7,6 +7,6 @@ export const teamState = atom({
 })
 
 export const teamIdState = atom({
-    key: "playlistIdState",
+    key: "teamIdState",
     default: "1oGcXV8QjQNLi7APDvsY0h",
 })
