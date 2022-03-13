@@ -15,7 +15,6 @@ import FplTwitter from "./dashboardelements/FplTwitter"
                 <div>
                     <FplTwitter />
                 </div>
-
             </div>
             
         </main>

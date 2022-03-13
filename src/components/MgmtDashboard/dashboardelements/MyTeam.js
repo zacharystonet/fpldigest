@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import getManagersTeam from "../../../utils/data/getManagersTeam";
 import getBootstrap from "../../../utils/data/getBootstrap";
 import getPlayerMatchData from "../../../utils/data/getPlayerMatchData"
-
 import {Table} from "../../../utils/tables/tables";
 
 
-export function MyTeam() {
 
+export function MyTeam() {
   const [teamArray, setTeamArray] = useState([]);
   const fetchData = async () => {
     let managersteam = [];
     const [bootstrap, data, playerMatchData] = await Promise.all([
       getBootstrap(),
-      getManagersTeam(27356, 28),
-      getPlayerMatchData(28)
+      getManagersTeam(27356, 29),
+      getPlayerMatchData(29)
     ]);
 
     //console.log(bootstrap)
     //console.log(data)
-    console.log(playerMatchData)
+    //console.log(playerMatchData)
+    
 
     for (let i in data.picks) {
       for (let j in bootstrap.elements) {

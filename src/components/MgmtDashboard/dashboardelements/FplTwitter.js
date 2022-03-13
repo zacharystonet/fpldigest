@@ -13,9 +13,7 @@ function FplTwitter() {
                     }}
                     options={{
                         height: '1000'
-                     }}
-            />
-            
+                     }}/>
         </div>
 
     )
