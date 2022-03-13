@@ -1,27 +1,64 @@
 import { useRecoilState } from "recoil";
 import React, { useEffect, useState } from "react";
 import { teamIdState } from "../../atoms/teamAtom"
-import { setCookies, getCookies, getCookie } from 'cookies-next';
+import { useCookies } from "react-cookie";
+import Cookies from 'universal-cookie';
 
+import getManagerInfo  from "../../utils/data/getManagerInfo"
+import TeamForm from "./TeamForm"
+
+
+/* var TeamIdEntry = React.createClass({
+    getInitialState: function () {
+      return { input: '' };
+    },
+  
+    handleChange: function(e) {
+      this.setState({ input: e.target.value });
+    },
+  
+    handleClick: function() {
+      console.log(this.state.input);
+    },
+  
+    render: function() {
+      return (
+        <div>
+          <input type="text" onChange={ this.handleChange } />
+          <input
+            type="button"
+            value="Alert the text input"
+            onClick={this.handleClick}
+          />
+        </div>
+      );
+    }
+  }); */
+
+function handleCookie(key) {
+   console.log(key)
+   const cookies = new Cookies();
+   var date = new Date;
+   date.setDate(date.getDate() + 364);
+   const [teamName, setTeamName] = useState(null);
+
+   useEffect(() => {
+       getManagerInfo(key).then(data => {  
+           console.log(data)
+           setTeamName(data.name);
+       })
+   }, []); 
+
+
+   cookies.set(key, teamName, {
+   path: "/",
+   expires: date
+   });
+} 
 
 function Sidebar() {
-    
-
     const [teams, setTeams] = useState([]);
     const [teamId, setTeamId] = useRecoilState(teamIdState);
-    // set cookieIDs here
-    setCookies("123", "Testname")
-
-    useEffect(() => {
-        
-    })
-/*     useEffect(() => {
-        if (spotifyApi.getAccessToken()) {
-                spotifyApi.getUserPlaylists().then((data) => {
-                setPlaylist(data.body.items);
-            });
-        }
-    }, [session, spotifyApi]); */
 
 
 
@@ -54,15 +91,23 @@ function Sidebar() {
 
                 {/* stored cookie IDs for teams */}
                 <hr className="border-t-[.1px] border-gray-200" />
-                {teams.map((team) => (
+                <TeamForm />
+{/*                 {teams.map((team) => (
                     <p 
                     key={team.id} 
                     onClick={() => setTeamId(team.id)}
                     className="cursor-pointer hover:text-white">{team.name}</p>
-                ))}
-                
+                ))} */}
 
-                   
+{/*             <form className="">
+                <div className="flex items-center py-3">
+                    <input ref={teamInput} className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Team ID" />
+                    <button className="flex items-center space-x-2 hover:text-gray">
+                        <PlusIcon className="h-5 w-5" onClick={handleCookie(teamInput)}/>
+                    </button>
+                </div>
+            </form>  */}
+
             </div>  
         </div>
     );

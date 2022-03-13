@@ -18,7 +18,8 @@ function MgmtCard() {
             setLastName(data.player_last_name);
             setTeamName(data.name);
             setOverallPoints(data.summary_overall_points);
-            setCurrentGWPoints(data.summary_overall_rank);
+            setCurrentGWPoints(data.summary_event_points);
+            setOverallRank(data.summary_overall_rank);
         })
     }, []); 
 
@@ -27,9 +28,10 @@ function MgmtCard() {
             <div className="px-5 pt-5">
                 <div className="font-bold text-xl mb-2">Team Summary</div>
                 <p className="text-gray-700 text-base"><b>Name:</b> {teamName} </p>
+                <p className="text-gray-700 text-base"><b>Overall Rank:</b> {overallRank}</p>
                 <p className="text-gray-700 text-base"><b>Total points:</b> {overallPoints}</p>
                 <p className="text-gray-700 text-base"><b>Current GW points:</b> {currentGWPoints}</p>
-                <p className="text-gray-700 text-base"><b>Overall Rank:</b> {currentGWPoints}</p>
+                
             </div>
         </div> 
     )
