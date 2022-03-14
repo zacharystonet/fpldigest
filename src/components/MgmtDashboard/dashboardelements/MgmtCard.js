@@ -25,13 +25,19 @@ function MgmtCard() {
 
     return (
         <div className="flex bg-white shadow-lg rounded-sm border border-slate-200">
-            <div className="px-5 pt-5">
-                <div className="font-bold text-xl mb-2">Team Summary</div>
-                <p className="text-gray-700 text-base"><b>Name:</b> {teamName} </p>
-                <p className="text-gray-700 text-base"><b>Overall Rank:</b> {overallRank}</p>
-                <p className="text-gray-700 text-base"><b>Total points:</b> {overallPoints}</p>
-                <p className="text-gray-700 text-base"><b>Current GW points:</b> {currentGWPoints}</p>
-                
+            <div className="px-5 pt-5 font-bold text-xl mb-2">Team Summary</div>
+
+            <div className="flex grid-cols-2 gap-6 px-5 pt-5 text-xl mb-2">
+                <div>
+                    <p className="text-gray-700 text-base"><b>Name:</b> {teamName} </p>
+                    <p className="text-gray-700 text-base"><b>Manager:</b> {firstName} {lastName}</p>
+                </div>
+                <div>
+                    <p className="text-gray-700 text-base"><b>Overall Rank:</b> {overallRank}</p>
+                    <p className="text-gray-700 text-base"><b>Total points:</b> {overallPoints}</p>
+                    <p className="text-gray-700 text-base"><b>Current GW points:</b> {currentGWPoints}</p>
+                </div>
+
             </div>
         </div> 
     )
