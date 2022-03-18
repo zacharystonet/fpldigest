@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import getManagersTeam from "../../../utils/data/getManagersTeam";
 import getBootstrap from "../../../utils/data/getBootstrap";
 import getPlayerMatchData from "../../../utils/data/getPlayerMatchData"
-import getGW from "../../../utils/data/getGW"
 import {Table} from "../../../utils/tables/tables";
-
+import { useRecoilState, useRecoilValue } from "recoil";
+import { teamIdState, teamState } from "../../../atoms/teamAtom";
 
 
 export function MyTeam() {
   const [teamArray, setTeamArray] = useState([]);
+  const teamId = useRecoilValue(teamIdState); // value we clicked in sidebar
+
   const fetchData = async () => {
     let managersteam = [];
     let gwId = null;
@@ -21,11 +23,10 @@ export function MyTeam() {
     }
 
     const [data, playerMatchData] = await Promise.all([
-      getManagersTeam(27356, gwId),
+      getManagersTeam(teamId, gwId),
       getPlayerMatchData(gwId)
     ]);
     //console.log(bootstrap)
-
     //console.log(bootstrap)
     //console.log(data)
     //console.log(playerMatchData)
@@ -53,8 +54,8 @@ export function MyTeam() {
   }
 
   useEffect(() => {
-    fetchData();    
-  }, []);
+    fetchData();   
+  }, [teamId]);
 
 
 

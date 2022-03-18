@@ -8,5 +8,5 @@ export const teamState = atom({
 
 export const teamIdState = atom({
     key: "teamIdState",
-    default: "1oGcXV8QjQNLi7APDvsY0h",
+    default: "27356",
 })

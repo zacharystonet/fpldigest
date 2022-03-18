@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import getManagerInfo  from "../../../utils/data/getManagerInfo";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { teamIdState, teamState } from "../../../atoms/teamAtom";
 
 function MgmtCard() {
-
-
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [teamName, setTeamName] = useState(null);
     const [overallPoints, setOverallPoints] = useState(null);
     const [currentGWPoints, setCurrentGWPoints] = useState(null);
     const [overallRank, setOverallRank] = useState(null);
-    
+    const teamId = useRecoilValue(teamIdState); // value we clicked in sidebar
+
     useEffect(() => {
-        getManagerInfo(27356).then(data => {
+        getManagerInfo(teamId).then(data => {
             //console.log(data)
             setFirstName(data.player_first_name);
             setLastName(data.player_last_name);
@@ -21,7 +22,7 @@ function MgmtCard() {
             setCurrentGWPoints(data.summary_event_points);
             setOverallRank(data.summary_overall_rank);
         })
-    }, []); 
+    }, [teamId]); 
 
     return (
         <div className="flex bg-white shadow-lg rounded-sm border border-slate-200">

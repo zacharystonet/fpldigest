@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 import getManagerInfo  from "../../utils/data/getManagerInfo"
 import TeamForm from "./TeamForm"
-
+import { teamIdState } from "../../atoms/teamAtom"
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export function Sidebar() {
     const [teams, setTeams] = useState([]);
+    const [teamId, setTeamId] = useRecoilState(teamIdState);
 
     
+
     const fetchData = async () => {
       let myTeamsArray = [];
       const cookies = new Cookies();
@@ -72,11 +75,11 @@ export function Sidebar() {
                             <li key={team.teamId}>
                                 <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
                                 <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
-                                <span className="text-sm font-medium">{team.teamName}</span>
+                                <span onClick={() => setTeamId(team.teamId)} className="text-sm font-medium">{team.teamName}</span>
                                 </a>
                             </li>
                     ))}
-                </ul>   
+                </ul>    
                 <TeamForm />
 
             </div>  
