@@ -1,16 +1,15 @@
-
 import React, { useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
-import getManagerInfo  from "../../utils/data/getManagerInfo"
-import TeamForm from "./TeamForm"
 import { teamIdState } from "../../atoms/teamAtom"
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
+import { PlusIcon } from '@heroicons/react/solid'
+import getBootstrap from "../../utils/data/getBootstrap";
+import getManagerInfo from "../../utils/data/getManagerInfo";
 
 export function Sidebar() {
     const [teams, setTeams] = useState([]);
     const [teamId, setTeamId] = useRecoilState(teamIdState);
-
-    
+    const [inputValue, setUserInput] = useState('')
 
     const fetchData = async () => {
       let myTeamsArray = [];
@@ -29,17 +28,40 @@ export function Sidebar() {
           });
           i = i + 1;
       }
-      
       setTeams(myTeamsArray)
     }
-    
-
     useEffect(() => {
-      fetchData();    
-    }, []);
-    
-    //console.log(teams)
+      fetchData();
+    }, [teamId]);
 
+
+    const followTeam = async () => {
+        if (inputValue !== "") {
+            let gwId = null;
+            const [bootstrap] = await Promise.all([getBootstrap()]);
+            for (let i in bootstrap.events) {
+              if (bootstrap.events[i].is_current) {
+                  gwId = bootstrap.events[i].id     
+              }
+            }
+
+            const [data] = await Promise.all([
+                getManagerInfo(inputValue, gwId)
+            ]);
+
+              var name = data.name;
+              const cookies = new Cookies();
+              var date = new Date;
+              date.setDate(date.getDate() + 364);
+            
+              cookies.set(inputValue, data.name, {
+                path: "/",
+                expires: date
+                });
+            setTeamId(inputValue)
+          }
+    }
+    
     return(
         <div className="min-h-screen flex flex-row bg-gray-100">
             <div className="flex flex-col w-56 bg-white rounded-r-3xl overflow-hidden">
@@ -74,14 +96,18 @@ export function Sidebar() {
                     {teams.map((team) => (
                             <li key={team.teamId}>
                                 <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
-                                <span onClick={() => setTeamId(team.teamId)} className="text-sm font-medium">{team.teamName}</span>
+                                    <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
+                                    <span onClick={() => setTeamId(team.teamId)} className="text-sm font-medium">{team.teamName}</span>
                                 </a>
                             </li>
                     ))}
                 </ul>    
-                <TeamForm />
-
+                <div className="flex items-center py-3">
+                    <input type="text" value={inputValue} onInput={e => setUserInput(e.target.value)} className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" placeholder="Team ID"  />
+                    <button className="flex items-center space-x-2 hover:text-gray">
+                    <PlusIcon className="h-5 w-5" onClick={followTeam}/>
+                    </button>
+                </div>
             </div>  
         </div>
     );

@@ -12,7 +12,7 @@ function FplTwitter() {
                     screenName: 'OfficialFPL'
                     }}
                     options={{
-                        height: '1000'
+                        height: '1013'
                      }}/>
         </div>
 

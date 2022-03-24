@@ -12,17 +12,23 @@ function MgmtCard() {
     const [overallRank, setOverallRank] = useState(null);
     const teamId = useRecoilValue(teamIdState); // value we clicked in sidebar
 
+    const fetchData = async () => {
+        const [managerInfo] = await Promise.all([
+            getManagerInfo(teamId)
+          ]);
+
+          setFirstName(managerInfo.player_first_name);
+          setLastName(managerInfo.player_last_name);
+          setTeamName(managerInfo.name);
+          setOverallPoints(managerInfo.summary_overall_points);
+          setCurrentGWPoints(managerInfo.summary_event_points);
+          setOverallRank(managerInfo.summary_overall_rank);
+
+    }
+
     useEffect(() => {
-        getManagerInfo(teamId).then(data => {
-            //console.log(data)
-            setFirstName(data.player_first_name);
-            setLastName(data.player_last_name);
-            setTeamName(data.name);
-            setOverallPoints(data.summary_overall_points);
-            setCurrentGWPoints(data.summary_event_points);
-            setOverallRank(data.summary_overall_rank);
-        })
-    }, [teamId]); 
+        fetchData();   
+      }, [teamId]);
 
     return (
         <div className="flex bg-white shadow-lg rounded-sm border border-slate-200">

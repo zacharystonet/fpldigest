@@ -1,7 +1,9 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component } from "react";
 import { PlusIcon } from '@heroicons/react/solid'
 import getManagerInfo from "../../utils/data/getManagerInfo";
+import getBootstrap from "../../utils/data/getBootstrap";
 import Cookies from 'universal-cookie';
+
 
 class TeamForm extends Component {
     constructor(props) {
@@ -20,27 +22,36 @@ class TeamForm extends Component {
         event.preventDefault();
       }
 
-      //remove team here?
-
-      async getTeamName() {
+      async followTeam() {
           try {
-            const [data] = await Promise.all([
-                getManagerInfo(this.state.value, 29)
-            ]);
-            
-              var name = data.name;
-              const cookies = new Cookies();
-              var date = new Date;
-              date.setDate(date.getDate() + 364);
-              cookies.set(this.state.value, data.name, {
-                path: "/",
-                expires: date
-                });
+              if (this.state.value !== "") {
+                let gwId = null;
+                const [bootstrap] = await Promise.all([getBootstrap()]);
+                for (let i in bootstrap.events) {
+                  if (bootstrap.events[i].is_current) {
+                      gwId = bootstrap.events[i].id     
+                  }
+                }
+
+                const [data] = await Promise.all([
+                    getManagerInfo(this.state.value, gwId)
+                ]);
+
+                  var name = data.name;
+                  const cookies = new Cookies();
+                  var date = new Date;
+                  date.setDate(date.getDate() + 364);
+                
+                  cookies.set(this.state.value, data.name, {
+                    path: "/",
+                    expires: date
+                    });
+              }
+              
           } catch (error) {
                 // do something here lol
           }
       }
-
 
   render() {
     return (
@@ -48,7 +59,7 @@ class TeamForm extends Component {
         <input className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" 
                type="text" placeholder="Team ID" value={this.state.value} onChange={this.handleChange} />
         <button className="flex items-center space-x-2 hover:text-gray">
-            <PlusIcon className="h-5 w-5" onClick={() => this.getTeamName()}/>
+            <PlusIcon className="h-5 w-5" onClick={() => this.followTeam()}/>
         </button>
       </div>
 
