@@ -1,4 +1,4 @@
-const proxyURL = "https://corsanywhere.herokuapp.com/"
+const proxyURL = "https://fplproxy.herokuapp.com/"
 const baseURL = "https://fantasy.premierleague.com/api/";
 
 export const reqType = {
@@ -14,9 +14,8 @@ export const reqType = {
 }
 
 
-export const getJSON = async (url) => {
+ export const getJSON = async (url) => {
   const response = await fetch(proxyURL + baseURL + url);
-  //console.log(proxyURL + baseURL + url);
   const myJson = await response.json();
   return myJson;
-}
+} 

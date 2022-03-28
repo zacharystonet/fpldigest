@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 import { teamIdState } from "../../atoms/teamAtom"
 import { useRecoilState } from "recoil";
-import { PlusIcon } from '@heroicons/react/solid'
+import { PlusIcon, XIcon } from '@heroicons/react/solid'
 import getBootstrap from "../../utils/data/getBootstrap";
 import getManagerInfo from "../../utils/data/getManagerInfo";
+
 
 export function Sidebar() {
     const [teams, setTeams] = useState([]);
@@ -61,6 +62,39 @@ export function Sidebar() {
             setTeamId(inputValue)
           }
     }
+
+    const unfollowTeam = (unfollowId) => {
+        const cookies = new Cookies();
+        cookies.remove(unfollowId)
+        if (unfollowId == teamId) {
+            setTeamId(1)
+            // check if they follow teams
+                // check if they have a favorite
+                        // return fav
+                // return first followed team
+            // return hogcrankcers fc >:)
+        } else {
+            //else just stay here and figure out how to get the sidebar component to refresh.
+        }
+
+
+
+
+
+
+        // if they removed the current 'teamId' 
+            // check if they follow teams
+                // check if they have a favorite
+                        // return fav
+                // return first followed team
+        //else just stay here and figure out how to get the sidebar component to refresh.
+            // return the default value, which is set to hogcrankers if they have none
+    }
+
+    const favTeam = (favTeamId) => {
+        const cookies = new Cookies();
+        cookies.set(favTeamId, )
+    }
     
     return(
         <div className="min-h-screen flex flex-row bg-gray-100">
@@ -95,9 +129,10 @@ export function Sidebar() {
                 <ul className="flex flex-col py-4">
                     {teams.map((team) => (
                             <li key={team.teamId}>
-                                <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+                                <a href="#" className="flex flex-row items-center h-12  text-gray-500 hover:text-gray-800">
                                     <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
                                     <span onClick={() => setTeamId(team.teamId)} className="text-sm font-medium">{team.teamName}</span>
+                                    <XIcon className="h-5 w-5" onClick={() => unfollowTeam(team.teamId)}/>
                                 </a>
                             </li>
                     ))}
