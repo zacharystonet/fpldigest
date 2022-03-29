@@ -2,33 +2,31 @@ import React, { useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 import { teamIdState } from "../../atoms/teamAtom"
 import { useRecoilState } from "recoil";
-import { PlusIcon, XIcon } from '@heroicons/react/solid'
+import { PlusIcon, XIcon, HeartIcon } from '@heroicons/react/solid'
 import getBootstrap from "../../utils/data/getBootstrap";
 import getManagerInfo from "../../utils/data/getManagerInfo";
-
+import ls, {get,set} from "local-storage"
 
 export function Sidebar() {
     const [teams, setTeams] = useState([]);
     const [teamId, setTeamId] = useRecoilState(teamIdState);
     const [inputValue, setUserInput] = useState('')
+    const lStorage = require('local-storage-json');
 
     const fetchData = async () => {
       let myTeamsArray = [];
-      const cookies = new Cookies();
-      const [data] = await Promise.all([
-          cookies.getAll()
-      ]);
 
-      var i = 0;
-      for (const key in data) {
-          
-        myTeamsArray.push({
-            id: i,
-            teamId: key,
-            teamName: data[key]
-          });
-          i = i + 1;
-      }
+      for (let i = 0; i < localStorage.length; i++){
+          const key = localStorage.key(i);
+          if (key.includes("Profile", 0)) {
+            const teamInfo = ls.get(key)
+             myTeamsArray.push({
+                id: i,
+                teamId: teamInfo.id,
+                teamName: teamInfo.teamName
+              }); 
+            }  
+    }
       setTeams(myTeamsArray)
     }
     useEffect(() => {
@@ -45,27 +43,24 @@ export function Sidebar() {
                   gwId = bootstrap.events[i].id     
               }
             }
-
             const [data] = await Promise.all([
                 getManagerInfo(inputValue, gwId)
             ]);
 
-              var name = data.name;
-              const cookies = new Cookies();
-              var date = new Date;
-              date.setDate(date.getDate() + 364);
-            
-              cookies.set(inputValue, data.name, {
-                path: "/",
-                expires: date
-                });
+            let myObject = {
+                teamName: data.name,
+                favorite: "false",
+                id: inputValue
+            };
+
+            lStorage.set("Profile:" + inputValue, myObject)  
+
             setTeamId(inputValue)
           }
     }
 
     const unfollowTeam = (unfollowId) => {
-        const cookies = new Cookies();
-        cookies.remove(unfollowId)
+        ls.remove("Profile:" + unfollowId)
         if (unfollowId == teamId) {
             setTeamId(1)
             // check if they follow teams
@@ -77,11 +72,6 @@ export function Sidebar() {
             //else just stay here and figure out how to get the sidebar component to refresh.
         }
 
-
-
-
-
-
         // if they removed the current 'teamId' 
             // check if they follow teams
                 // check if they have a favorite
@@ -90,10 +80,32 @@ export function Sidebar() {
         //else just stay here and figure out how to get the sidebar component to refresh.
             // return the default value, which is set to hogcrankers if they have none
     }
+    //returns the id of the team a user selected as favorite
+    function getFavTeam() {
+        for (let i = 0; i < localStorage.length; i++){
+            let key = ls.get(localStorage.key(i));
+            if (key.favorite == "true") {
+                return key.id
+            }
+        }  
+        
+    }
+    const favTeam = (newFavTeamId) => {
+        let currentFavTeamId = getFavTeam()
+        if (newFavTeamId != currentFavTeamId) {
 
-    const favTeam = (favTeamId) => {
-        const cookies = new Cookies();
-        cookies.set(favTeamId, )
+            // set the users current favorite team to false
+            let currentFavTeam = ls.get("Profile:" + currentFavTeamId)
+            currentFavTeam.favorite = "false"
+            ls.set("Profile:" + currentFavTeamId, currentFavTeam)
+            
+            // set new fav team
+            let newFavTeam = ls.get("Profile:" + newFavTeamId)
+            newFavTeam.favorite = "true"
+            ls.set("Profile:" + newFavTeamId, newFavTeam)
+        }
+
+
     }
     
     return(
@@ -133,6 +145,7 @@ export function Sidebar() {
                                     <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
                                     <span onClick={() => setTeamId(team.teamId)} className="text-sm font-medium">{team.teamName}</span>
                                     <XIcon className="h-5 w-5" onClick={() => unfollowTeam(team.teamId)}/>
+                                    <HeartIcon className="h-5 w-5" onClick={() => favTeam(team.teamId)}/>
                                 </a>
                             </li>
                     ))}

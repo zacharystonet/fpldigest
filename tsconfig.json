@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/data/baseRequest.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/data/baseRequest.ts", "src/utils/data/getBootstrap.js"],
   "exclude": ["node_modules"]
 }
