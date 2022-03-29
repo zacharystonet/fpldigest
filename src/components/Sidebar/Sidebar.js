@@ -93,19 +93,15 @@ export function Sidebar() {
     const favTeam = (newFavTeamId) => {
         let currentFavTeamId = getFavTeam()
         if (newFavTeamId != currentFavTeamId) {
-
             // set the users current favorite team to false
             let currentFavTeam = ls.get("Profile:" + currentFavTeamId)
             currentFavTeam.favorite = "false"
             ls.set("Profile:" + currentFavTeamId, currentFavTeam)
-            
             // set new fav team
             let newFavTeam = ls.get("Profile:" + newFavTeamId)
             newFavTeam.favorite = "true"
             ls.set("Profile:" + newFavTeamId, newFavTeam)
         }
-
-
     }
     
     return(
