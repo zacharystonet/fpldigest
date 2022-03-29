@@ -6,17 +6,17 @@ import { PlusIcon, XIcon, HeartIcon } from '@heroicons/react/solid'
 import getBootstrap from "../../utils/data/getBootstrap";
 import getManagerInfo from "../../utils/data/getManagerInfo";
 import ls, {get,set} from "local-storage"
-import { isNull } from "util";
+
 
 export function Sidebar() {
     const [teams, setTeams] = useState([]);
     const [teamId, setTeamId] = useRecoilState(teamIdState);
     const [inputValue, setUserInput] = useState('')
     const lStorage = require('local-storage-json');
+    const [isRemoving, setIsRemoving] = useState(false);
 
     const fetchData = async () => {
       let myTeamsArray = [];
-
       for (let i = 0; i < localStorage.length; i++){
           const key = localStorage.key(i);
           if (key.includes("Profile", 0)) {
@@ -29,10 +29,11 @@ export function Sidebar() {
             }  
     }
       setTeams(myTeamsArray)
+      setIsRemoving(false)
     }
     useEffect(() => {
       fetchData();
-    }, [teamId]);
+    }, [teamId, isRemoving]);
 
 
     const followTeam = async () => {
@@ -61,28 +62,32 @@ export function Sidebar() {
     }
 
     const unfollowTeam = (unfollowId) => {
-        ls.remove("Profile:" + unfollowId)
-        if (unfollowId == teamId) {
-            setTeamId(1)
-            // check if they follow teams
-                // check if they have a favorite
-                        // return fav
-                // return first followed team
-            // return hogcrankcers fc >:)
-        } else {
-            //else just stay here and figure out how to get the sidebar component to refresh.
-        }
+        //need to fix this so its smarter. what if they only have 1 team followed? our first check can't just be if we are on the same id that we are unfollowing
+        
+        let favTeam = getFavTeam();
+        let followedTeam = getFirstFollowedTeam();
+        // check if we unfollowed the team we are viewing currently
+         if (unfollowId == teamId ) {
+            // check for fav team
+            if (!!favTeam) {
+                setTeamId(favTeam)
+            } else if (!!followedTeam) { 
+                // no fav team so get a followed team
+                setTeamId(followedTeam)
+            } else {
+                    console.log("here")
+                    // no followed team so set to hogcrankers fc
+                    setTeamId(27356)
+                }
+            }
+            ls.remove("Profile:" + unfollowId)
+            setIsRemoving(true) 
+        }  
 
-        // if they removed the current 'teamId' 
-            // check if they follow teams
-                // check if they have a favorite
-                        // return fav
-                // return first followed team
-        //else just stay here and figure out how to get the sidebar component to refresh.
-            // return the default value, which is set to hogcrankers if they have none
-    }
 
+    
 
+    
 
     //returns the id of the team a user selected as favorite
     function getFavTeam() { 
@@ -93,8 +98,43 @@ export function Sidebar() {
             }
         }
         return null  
-        
     }
+
+    function getFirstFollowedTeam() { 
+        for (let i = 0; i < localStorage.length; i++){
+            let key = localStorage.key(i);
+            if (key.includes("Profile", 0)) {
+                let teamInfo = ls.get(key)
+                return teamInfo.id
+            }
+        }
+        return null
+    }
+
+
+    function doesFavExist() { 
+        for (let i = 0; i < localStorage.length; i++){
+            let key = ls.get(localStorage.key(i));
+            if (key.favorite == true) {
+                return true
+            }
+        }
+        return false  
+    }
+
+    function doesFollowExist() { 
+        for (let i = 0; i < localStorage.length; i++){
+            const key = localStorage.key(i);
+            if (key.includes("Profile", 0)) {
+                return true
+            }
+        }
+        return false
+    }
+
+
+
+
 
     // set a favorite team in local storage
     const favTeam = (newFavTeamId) => {
