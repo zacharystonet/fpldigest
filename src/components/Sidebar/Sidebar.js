@@ -6,6 +6,7 @@ import { PlusIcon, XIcon, HeartIcon } from '@heroicons/react/solid'
 import getBootstrap from "../../utils/data/getBootstrap";
 import getManagerInfo from "../../utils/data/getManagerInfo";
 import ls, {get,set} from "local-storage"
+import { isNull } from "util";
 
 export function Sidebar() {
     const [teams, setTeams] = useState([]);
@@ -49,7 +50,7 @@ export function Sidebar() {
 
             let myObject = {
                 teamName: data.name,
-                favorite: "false",
+                favorite: false,
                 id: inputValue
             };
 
@@ -80,30 +81,40 @@ export function Sidebar() {
         //else just stay here and figure out how to get the sidebar component to refresh.
             // return the default value, which is set to hogcrankers if they have none
     }
+
+
+
     //returns the id of the team a user selected as favorite
-    function getFavTeam() {
+    function getFavTeam() { 
         for (let i = 0; i < localStorage.length; i++){
             let key = ls.get(localStorage.key(i));
-            if (key.favorite == "true") {
+            if (key.favorite == true) {
                 return key.id
             }
-        }  
+        }
+        return null  
         
     }
+
+    // set a favorite team in local storage
     const favTeam = (newFavTeamId) => {
         let currentFavTeamId = getFavTeam()
         if (newFavTeamId != currentFavTeamId) {
-            // set the users current favorite team to false
-            let currentFavTeam = ls.get("Profile:" + currentFavTeamId)
-            currentFavTeam.favorite = "false"
-            ls.set("Profile:" + currentFavTeamId, currentFavTeam)
+            // set the users current favorite team if they have one, to false
+            if (!!currentFavTeamId) {
+                let currentFavTeam = ls.get("Profile:" + currentFavTeamId)
+                currentFavTeam.favorite = false
+                ls.set("Profile:" + currentFavTeamId, currentFavTeam)
+            }
+
             // set new fav team
             let newFavTeam = ls.get("Profile:" + newFavTeamId)
-            newFavTeam.favorite = "true"
+            newFavTeam.favorite = true
             ls.set("Profile:" + newFavTeamId, newFavTeam)
         }
     }
     
+
     return(
         <div className="min-h-screen flex flex-row bg-gray-100">
             <div className="flex flex-col w-56 bg-white rounded-r-3xl overflow-hidden">
