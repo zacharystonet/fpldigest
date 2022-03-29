@@ -62,12 +62,14 @@ export function Sidebar() {
     }
 
     const unfollowTeam = (unfollowId) => {
-        //need to fix this so its smarter. what if they only have 1 team followed? our first check can't just be if we are on the same id that we are unfollowing
         
-        let favTeam = getFavTeam();
-        let followedTeam = getFirstFollowedTeam();
+        ls.remove("Profile:" + unfollowId)
+
+
         // check if we unfollowed the team we are viewing currently
          if (unfollowId == teamId ) {
+            let favTeam = getFavTeam();
+            let followedTeam = getFirstFollowedTeam();
             // check for fav team
             if (!!favTeam) {
                 setTeamId(favTeam)
@@ -75,12 +77,10 @@ export function Sidebar() {
                 // no fav team so get a followed team
                 setTeamId(followedTeam)
             } else {
-                    console.log("here")
-                    // no followed team so set to hogcrankers fc
-                    setTeamId(27356)
+                // no followed team so set to hogcrankers fc
+                setTeamId(27356)
                 }
             }
-            ls.remove("Profile:" + unfollowId)
             setIsRemoving(true) 
         }  
 
