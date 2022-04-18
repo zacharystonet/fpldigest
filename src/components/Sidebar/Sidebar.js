@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Cookies from 'universal-cookie';
 import { teamIdState } from "../../atoms/teamAtom"
 import { useRecoilState } from "recoil";
 import { PlusIcon, XIcon, HeartIcon } from '@heroicons/react/solid'
 import getBootstrap from "../../utils/data/getBootstrap";
 import getManagerInfo from "../../utils/data/getManagerInfo";
-import ls, {get,set} from "local-storage"
+import ls from "local-storage"
 
 
 export function Sidebar() {
@@ -85,12 +84,8 @@ export function Sidebar() {
         }  
 
 
-    
-
-    
-
     //returns the id of the team a user selected as favorite
-    function getFavTeam() { 
+     function getFavTeam() { 
         for (let i = 0; i < localStorage.length; i++){
             let key = ls.get(localStorage.key(i));
             if (key.favorite == true) {
@@ -187,12 +182,12 @@ export function Sidebar() {
 
                 <ul className="flex flex-col py-4">
                     {teams.map((team) => (
-                            <li key={team.teamId}>
+                            <li className= "group" key={team.teamId}>
                                 <a href="#" className="flex flex-row items-center h-12  text-gray-500 hover:text-gray-800">
                                     <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
                                     <span onClick={() => setTeamId(team.teamId)} className="text-sm font-medium">{team.teamName}</span>
-                                    <XIcon className="h-5 w-5" onClick={() => unfollowTeam(team.teamId)}/>
-                                    <HeartIcon className="h-5 w-5" onClick={() => favTeam(team.teamId)}/>
+                                    <XIcon className="invisible group-hover:visible h-5 w-5" onClick={() => unfollowTeam(team.teamId)}/>
+                                    <HeartIcon className="invisible group-hover:visible h-5 w-5" onClick={() => favTeam(team.teamId)}/>
                                 </a>
                             </li>
                     ))}

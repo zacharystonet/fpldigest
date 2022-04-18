@@ -10,7 +10,7 @@ import { teamIdState, teamState } from "../../../atoms/teamAtom";
 export function MyTeam() {
   const [teamArray, setTeamArray] = useState([]);
   const teamId = useRecoilValue(teamIdState); // value we clicked in sidebar
-
+  
   const fetchData = async () => {
     let managersteam = [];
     let gwId = null;
