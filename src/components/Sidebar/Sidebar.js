@@ -186,8 +186,8 @@ export function Sidebar() {
                                 <a href="#" className="flex flex-row items-center h-12  text-gray-500 hover:text-gray-800">
                                     <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
                                     <span onClick={() => setTeamId(team.teamId)} className="text-sm font-medium">{team.teamName}</span>
-                                    <XIcon className="invisible group-hover:visible h-5 w-5" onClick={() => unfollowTeam(team.teamId)}/>
-                                    <HeartIcon className="invisible group-hover:visible h-5 w-5" onClick={() => favTeam(team.teamId)}/>
+                                    <XIcon className="invisible group-hover:visible opacity-50 hover:opacity-100 h-5 w-5" onClick={() => unfollowTeam(team.teamId)}/>
+                                    <HeartIcon className="invisible group-hover:visible opacity-50 hover:opacity-100 h-5 w-5" onClick={() => favTeam(team.teamId)}/>
                                 </a>
                             </li>
                     ))}
